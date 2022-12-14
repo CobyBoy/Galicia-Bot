@@ -1,3 +1,4 @@
+# Bot que envía mensaje por telegram cuando cae el sueldillo porque Galicia no tiene notificaciones push
 # Cómo usar
 
 Descargar/clonar repo.
