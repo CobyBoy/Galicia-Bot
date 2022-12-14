@@ -1,8 +1,0 @@
-{
-  "selectors": {
-    "cuentasLink": "body > div.container-fluid > div.sidebar.navmenu.offcanvas-sm.canvas-slid > div.content-nav > ul:nth-child(1) > li:nth-child(2) > a",
-    "cajaPesos": "body > div.container-fluid > div.main > div.row.full-h > div.col-sm-12 > div:nth-child(1) > div:nth-child(2)",
-    "listaDeMovimientos": ".table-row.cursor-p.no-padding-right",
-    "valorDeMovimiento": ".detalle-movimiento"
-  }
-}

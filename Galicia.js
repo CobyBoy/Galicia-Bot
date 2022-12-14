@@ -1,13 +1,12 @@
+import * as dotenv from 'dotenv'
+dotenv.config();
 import {
   BASE_URL,
   DEFAULT_MESSAGE,
   SUCCESS_MESSAGE,
   TRANSFERENCIA_A_BUSCAR,
 } from './constants.js';
-import { DNI, PASSWORD, USERNAME } from './credentials.js';
-import { createRequire } from 'node:module';
-const require = createRequire(import.meta.url);
-const path = require('./selectors.json');
+import * as css from './selectors.js';
 
 export default class Galicia {
   constructor(page) {
@@ -23,9 +22,9 @@ export default class Galicia {
     await this.page
       .waitForSelector('#form1', { visible: true })
       .then(() => console.log('Formulario listo'));
-    await this.page.type('#DocumentNumber', DNI);
-    await this.page.type('#UserName', USERNAME);
-    await this.page.type('#Password', PASSWORD);
+    await this.page.type('#DocumentNumber', process.env.DNI);
+    await this.page.type('#UserName', process.env.USER_NAME);
+    await this.page.type('#Password', process.env.PASSWORD);
     await this.page.click('#submitButton');
     console.log('Logueando...');
   }
@@ -38,9 +37,9 @@ export default class Galicia {
         let depositado = false;
 
         for (const row of listaDeMovimientos) {
-          if (row.textContent.includes(valorABuscar) && !depositado) {
+          if (row.textContent.includes(valorABuscar) && row.textContent.includes(new Date().getMonth()+1) && !depositado) {
             console.log('Sueldo depositado');
-            for (i of row.children) {
+            for (const i of row.children) {
               message += i.innerText + '\n';
             }
             depositado = true;
@@ -49,10 +48,10 @@ export default class Galicia {
         }
         return msgDefault;
       },
-      path.selectors.listaDeMovimientos,
+      css.default.selectors.listaDeMovimientos,
       TRANSFERENCIA_A_BUSCAR,
       DEFAULT_MESSAGE,
       SUCCESS_MESSAGE
     );
-  }
+  };
 }
