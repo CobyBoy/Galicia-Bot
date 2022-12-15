@@ -6,9 +6,9 @@ import {
   SUCCESS_MESSAGE,
   TRANSFERENCIA_A_BUSCAR,
 } from './constants.js';
-import * as css from './selectors.js';
+import { cssSelectors } from './selectors.js';
 
-export default class Galicia {
+export class Galicia {
   constructor(page) {
     this.page = page
   }
@@ -32,12 +32,18 @@ export default class Galicia {
   async findDeposit() {
     return await this.page.evaluate(
       (listaDeMovimientosPath, valorABuscar, msgDefault, msgSuccess) => {
-        const listaDeMovimientos = document.querySelectorAll(listaDeMovimientosPath);
+        const listaDeMovimientos = document.querySelectorAll(
+          listaDeMovimientosPath
+        );
         let message = msgSuccess;
         let depositado = false;
 
         for (const row of listaDeMovimientos) {
-          if (row.textContent.includes(valorABuscar) && row.textContent.includes(new Date().getMonth()+1) && !depositado) {
+          if (
+            row.textContent.includes(valorABuscar) &&
+            row.textContent.includes(new Date().getMonth() + 1) &&
+            !depositado
+          ) {
             console.log('Sueldo depositado');
             for (const i of row.children) {
               message += i.innerText + '\n';
@@ -48,7 +54,7 @@ export default class Galicia {
         }
         return msgDefault;
       },
-      css.default.selectors.listaDeMovimientos,
+      cssSelectors.listaDeMovimientos,
       TRANSFERENCIA_A_BUSCAR,
       DEFAULT_MESSAGE,
       SUCCESS_MESSAGE

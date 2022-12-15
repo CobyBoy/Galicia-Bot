@@ -3,7 +3,7 @@ dotenv.config();
 import axios from 'axios';
 import { SEND_URL } from './constants.js';
 
-export default class Telegram {
+export class Telegram {
   constructor() {}
 
   sendTelegramMsg(message) {

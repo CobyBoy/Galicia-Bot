@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer';
-import * as css from './selectors.js';
-import Telegram from './Telegram.js';
-import Galicia from './Galicia.js';
+import { cssSelectors } from './selectors.js';
+import { Telegram } from './Telegram.js';
+import { Galicia } from './Galicia.js';
 
 const options = {
   headless: false,
@@ -23,15 +23,14 @@ await bot.fillLoginForm();
 
 await page.waitForNavigation({ waitUntil: 'domcontentloaded' });
 
-await page
-  .waitForSelector(css.default.selectors.inicioBody, { visible: true })
+await page.waitForSelector(cssSelectors.inicioBody, { visible: true })
   .then(() => console.log('Página principal cargada...'));
 
 try {
-  await page.waitForSelector(css.default.selectors.menu, { visible: true })
+  await page.waitForSelector(cssSelectors.menu, { visible: true })
     .then(() => console.log('Menú cargado...'));
   
-  const cuentasLink = await page.waitForSelector(css.default.selectors.cuentasLink, { visible: true });
+  const cuentasLink = await page.waitForSelector(cssSelectors.cuentasLink, { visible: true });
 
   cuentasLink.click().then(() => console.log('navegando a cuentas...'));
 } catch (error) {
@@ -45,7 +44,7 @@ try {
 }
 
 try {
-  const cajaPesos = await page.waitForSelector(css.default.selectors.cajaPesos, { visible: true });
+  const cajaPesos = await page.waitForSelector(cssSelectors.cajaPesos, { visible: true });
   cajaPesos.click().then(() => console.log('navegando a mis movimientos...'));
 } catch (error) {
   console.log('Hubo un error clickeando en la caja de pesos');
@@ -58,7 +57,7 @@ try {
 }
 
 try {
-  await page.waitForSelector(css.default.selectors.listaDeMovimientos, { visible: true });
+  await page.waitForSelector(cssSelectors.listaDeMovimientos, { visible: true });
 
   const messageToSend = await bot.findDeposit();
   telebot.sendTelegramMsg(messageToSend + '\n[Enviado desde NodeJS bot]');
